@@ -5,13 +5,14 @@
 
 import socketserver
 import threading
+import Utils.strDispose as mystrUtil
+import mysql.deviceSql as mydevicesql
 
+conn_deviceID = []      #
+conn_obj = {}               #存放连接对象
 
-
-conn_listpid = []
-conn_listRegister = []
-conn_obj = {}
-
+address = ''    #地址
+port=10024      #端口号
 
 class MyServer(socketserver.BaseRequestHandler):
     def handle(self):
@@ -33,19 +34,31 @@ class MyServer(socketserver.BaseRequestHandler):
             ret_str = str(ret_bytes, encoding="utf-8")
 
             # 输出用户发送过来的注册信息
-            print('注册信息为:',ret_str)
+            print('注册信息为:', ret_str)
+            #分割成ID和密码，返回字典【id,passwd】
+            id_passwd= mystrUtil.get_Id_Passwd(ret_str)
+            if not id_passwd is '':
+                device_id=id_passwd[0]
+                device_passwd=id_passwd[1]
+                print('id',device_id,'密码',device_passwd)
+            else:
+                conn.sendall(bytes('类型错误', encoding="utf-8"))
+                return
         except UnicodeDecodeError:
             print('字符转换错误：非法字符')
 
-        # 追加到list里
-        if ret_str not in conn_listRegister:
-            #保存设备序列号和对应的连接对象
-            conn_listRegister.append(ret_str)
-            conn_obj[ret_str] = conn
+
+            #传入id和密码验证是否存在设备
+        if mydevicesql.matching(device_id,device_passwd):
+            print('验证成功')
+            conn_deviceID.append(device_id)
+            conn_obj[device_id]=conn
         else:
-            print('信息已被注册')
-            conn.sendall(bytes('信息已被注册', encoding="utf-8"))
+            print('设备验证失败')
+            conn.sendall(bytes('设备验证失败', encoding="utf-8"))
             return
+
+
 
         print('等待节点上传数据')
         while True :
@@ -75,7 +88,7 @@ def sendMsg(conn, str):
 
 def serverStart():
     try:
-        server = socketserver.ThreadingTCPServer(('127.0.0.1', 10024,), MyServer)
+        server = socketserver.ThreadingTCPServer((address, port), MyServer)
         print('Server is Running...')
         server.serve_forever()
 

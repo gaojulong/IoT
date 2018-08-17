@@ -32,7 +32,7 @@ def createDevice():
         device_passwd= request.form.get('device_passwd')
         device_name = request.form.get('device_name')
 
-        mydevicesql.add(user_id,device_passwd,device_name,mydate.getdate())
+        mydevicesql.add(user_id,device_passwd,device_name)
 
         print('设备ID', user_id, '设备密码：', device_passwd,'设别名称',device_name)
         return '添加成功'

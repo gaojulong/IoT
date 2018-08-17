@@ -3,7 +3,7 @@ conn = pymysql.Connect(host='192.168.43.244',port=3306,user="root",passwd="root"
 
 # 创建游标
 cur = conn.cursor()
-print('连接')
+print('连接数据库')
 #返回游标
 def getCursor():
     return cur
