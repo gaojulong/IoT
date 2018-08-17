@@ -1,22 +1,28 @@
 from flask import render_template,request
 from flask import Flask
+
+import mysql.deviceSql as mydevicesql
+import mysql.userSql as myusersql
+import Utils.mydate as mydate
+
 app = Flask(__name__)
 
 
 #登录
 @app.route('/login',methods = ['GET','POST'])
 def login():
-    # if request.method == 'GET':
-    #     return render_template('login.html')
-    # else:
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
         username = request.form.get('username')
         userpassword = request.form.get('userpassword')
 
         print('输入的用户名为：',username,'密码：',userpassword)
         return 'post request'
 
-#创建设备
 
+
+#创建设备
 @app.route('/createDevice',methods = ['GET','POST'])
 def createDevice():
     if request.method=='GET':
@@ -26,8 +32,10 @@ def createDevice():
         device_passwd= request.form.get('device_passwd')
         device_name = request.form.get('device_name')
 
+        mydevicesql.add(user_id,device_passwd,device_name,mydate.getdate())
+
         print('设备ID', user_id, '设备密码：', device_passwd,'设别名称',device_name)
-        return 'POST'
+        return '添加成功'
 
 #主页
 @app.route('/')
