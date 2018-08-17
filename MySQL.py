@@ -16,6 +16,5 @@ def add(user_name,user_passwd):
     cur.commit()
 
 
-# add('name001','ps001')
 select()
 cur.close()
