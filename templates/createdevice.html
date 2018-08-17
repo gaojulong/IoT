@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建设备</title>
+</head>
+<body>
+
+<form action="{{url_for('createDevice')}}"method="post">
+ <table>
+        <tr>
+            <td>用户ID:</td>
+            <td><input type="text" name="user_id"></td>
+        </tr>
+
+         <tr>
+            <td>设备密码:</td>
+            <td><input type="text" name="device_passwd"></td>
+        </tr>
+
+         <tr>
+            <td>设备名称:</td>
+            <td><input type="text" name="device_name"></td>
+        </tr>
+
+         <tr>
+            <td></td>
+            <td><input type="submit" value="创建设备"></td>
+        </tr>
+
+    </table>
+</form>
+
+
+</body>
+</html>

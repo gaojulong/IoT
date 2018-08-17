@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="{{url_for('login')}}"method="post">
+    <table>
+        <tr>
+            <td>用户名:</td>
+            <td><input type="text" placeholder="请输入用户名" name="username"></td>
+        </tr>
+         <tr>
+            <td>密码:</td>
+            <td><input type="text" placeholder="请输入密码" name="userpassword"></td>
+        </tr>
+
+          <tr>
+            <td>手机号:</td>
+            <td><input type="text" placeholder="请输入手机号" name="phonenumber"></td>
+        </tr>
+
+          <tr>
+            <td>E-Mail:</td>
+            <td><input type="text" placeholder="请输入邮箱" name="email"></td>
+        </tr>
+
+          <tr>
+            <td>所在学校:</td>
+            <td><input type="text" placeholder="所读学校" name="school"></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td><input type="submit" value="登录"></td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+</html>
