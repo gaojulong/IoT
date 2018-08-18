@@ -16,7 +16,7 @@ def add(user_id,device_passwd,device_name):
 def matching(device_id,device_passwd):
     # 返回受影响的行数
     row=cur.execute("SELECT * FROM device WHERE device_id='%s'AND device_passwd='%s'" %(device_id,device_passwd))
-    print(row)
+    # print(row)
 
     return row
 
