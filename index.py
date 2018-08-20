@@ -16,9 +16,13 @@ def login():
     else:
         username = request.form.get('username')
         userpassword = request.form.get('userpassword')
-
         print('输入的用户名为：',username,'密码：',userpassword)
-        return 'post request'
+
+        userID=myusersql.matching(username, userpassword)
+        if userID is None:
+            return '登录失败'
+
+    return ('登录成功,用户ID%s'%userID)
 
 
 
@@ -48,7 +52,6 @@ def sendMsgDevice():
         device_name = request.form.get('device_passwd')
         sedMsg = request.form.get('msg')
 
-        # str=tcpservice.send_msg(device_id,device_name,sedMsg)
         str = tcpservice.send_msg(device_id, device_name, sedMsg)
 
         return ('返回结果:%s'%str)

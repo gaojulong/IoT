@@ -4,6 +4,7 @@ import threading, time
 import TCP.Device as mydevice
 import Utils.myStringUtil as mystrUtil
 import mysql.deviceSql as mydevicesql
+import mysql.dataSql as mydatasql
 
 devicelist = []
 
@@ -60,15 +61,21 @@ def receiveMsg(device):
             data = device.skt.recv(1024)
             if not data:
                 print('没有数据，从列表中移除对象')
-
                 devicelist.remove(device)#在列表中移除这个对象
-
                 break
-            # 接收客户端发送过来的内容
-            ret_str = str(data, encoding="utf-8")
+            else:
+                # 接收客户端发送过来的内容
+                ret_str = str(data, encoding="utf-8")
+                # 输出用户发送过来的注册信息
+                print(device.deviceid, '号上传数据:', ret_str)
 
-            # 输出用户发送过来的注册信息
-            print(device.deviceid, '号上传数据:', ret_str)
+                #讲数据保存到数据库
+                mydatasql.add(device.deviceid,ret_str)
+                device.skt.send('OK'.encode())#接收数据后返回ok给客户端
+
+
+
+
     except:
         isNormar = False
 
@@ -126,7 +133,7 @@ def starTCP():
         thr = threading.Thread(target=main)
         thr.start()
     except ( KeyboardInterrupt ):
-        print('TCP服务启动异常')\
+        print('TCP服务启动失败')
 
 
 # if (__name__ == "__main__"):
