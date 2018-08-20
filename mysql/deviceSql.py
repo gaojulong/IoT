@@ -21,9 +21,9 @@ def matching(device_id,device_passwd):
     return row
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
-    print()
+    # print()
     #添加设备
     # add('11','123123','001')
 

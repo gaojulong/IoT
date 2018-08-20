@@ -35,9 +35,9 @@ def get_Id_Passwd(loginMsg):
 #         return ''
 #
 
-if __name__ == '__main__':
-    str = get_Id_Passwd('134123')
-    if str is '':
-        print('返回空')
-    else:
-        print(str[0], str[1])
+# if __name__ == '__main__':
+#     str = get_Id_Passwd('134123')
+#     if str is '':
+#         print('返回空')
+#     else:
+#         print(str[0], str[1])

@@ -3,7 +3,7 @@ from flask import Flask
 
 import mysql.deviceSql as mydevicesql
 import mysql.userSql as myusersql
-import Utils.mydate as mydate
+import TCP.Server as tcpservice
 
 app = Flask(__name__)
 
@@ -37,10 +37,28 @@ def createDevice():
         print('设备ID', user_id, '设备密码：', device_passwd,'设别名称',device_name)
         return '添加成功'
 
+
+#给设备发送消息
+@app.route('/sendMsgDevice',methods=['GET','POST'])
+def sendMsgDevice():
+    if request.method=='GET':
+        return render_template('sendMsgDevice.html')
+    else:
+        device_id = request.form.get('device_id')
+        device_name = request.form.get('device_passwd')
+        sedMsg = request.form.get('msg')
+
+        # str=tcpservice.send_msg(device_id,device_name,sedMsg)
+        str = tcpservice.send_msg(device_id, device_name, sedMsg)
+
+        return ('返回结果:%s'%str)
+
+
 #主页
 @app.route('/')
 def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True)
+    tcpservice.starTCP()
+    app.run(host='0.0.0.0')

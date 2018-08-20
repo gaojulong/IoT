@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="{{url_for('sendMsgDevice')}}"method="post">
+ <table>
+        <tr>
+            <td>目标设备ID:</td>
+            <td><input type="text" name="device_id"></td>
+        </tr>
+
+         <tr>
+            <td>目标设备密码:</td>
+            <td><input type="text" name="device_passwd"></td>
+        </tr>
+
+        <tr>
+            <td>发送的消息:</td>
+            <td><input type="text" name="msg"></td>
+        </tr>
+
+         <tr>
+            <td></td>
+            <td><input type="submit" value="发送"></td>
+        </tr>
+
+    </table>
+</form>
+
+
+</body>
+</html>

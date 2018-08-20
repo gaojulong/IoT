@@ -20,8 +20,8 @@ def add(user_name,user_passwd):
 
 ###根据传入
 
-if __name__ == '__main__':
-    # add('001' ,'123123')
-    select('user')
-
-    connsql.close()
+# if __name__ == '__main__':
+#     # add('001' ,'123123')
+#     select('user')
+#
+#     connsql.close()

@@ -1,9 +1,9 @@
 import socket
 
-class User:
-    def __init__(self,skt,username='none'):
+class Device:
+    def __init__(self, skt, deviceid='none'):
         self.skt=skt
-        self.username=username
+        self.deviceid=deviceid
     def send_msg(self,msg):
         self.skt.send(msg)
     def logout(self):
