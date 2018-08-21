@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>设备id</th>
+			<th>用户id</th>
+            <th>设备密码</th>
+            <th>设备名称</th>
+            <th>创建时间</th>
+            <th>APIkey</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for device in devices %}
+		<tr>
+            <td>{{device[0] }}</td>
+            <td>{{device[1]}}</td>
+            <td>{{device[2] }}</td>
+            <td>{{device[3] }}</td>
+            <td>{{device[4] }}</td>
+            <td>{{device[5]}}</td>
+            <td>{{device[6]}}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ import TCP.Device as mydevice
 import Utils.myStringUtil as mystrUtil
 import mysql.deviceSql as mydevicesql
 import mysql.dataSql as mydatasql
+import mysql.mysql as mysql
 
 devicelist = []
 
@@ -61,7 +62,7 @@ def receiveMsg(device):
             data = device.skt.recv(1024)
             if not data:
                 print('没有数据，从列表中移除对象')
-                devicelist.remove(device)#在列表中移除这个对象
+                devicelist.remove(device)  # 在列表中移除这个对象
                 break
             else:
                 # 接收客户端发送过来的内容
@@ -69,9 +70,14 @@ def receiveMsg(device):
                 # 输出用户发送过来的注册信息
                 print(device.deviceid, '号上传数据:', ret_str)
 
-                #讲数据保存到数据库
-                mydatasql.add(device.deviceid,ret_str)
+                # #讲数据保存到数据库
+                # mydatasql.add(device.deviceid,ret_str)
+                # device.skt.send('OK'.encode())#接收数据后返回ok给客户端
+
+                #sql对象
+                mysql.MySQL().insertData(device.deviceid,ret_str)
                 device.skt.send('OK'.encode())#接收数据后返回ok给客户端
+
 
 
 
@@ -79,7 +85,8 @@ def receiveMsg(device):
     except:
         isNormar = False
 
-#发送消息给设备
+
+# 发送消息给设备
 def send_msg(deviceid, devicepassed, msg):
     if mydevicesql.matching(deviceid, devicepassed):
 
@@ -109,32 +116,22 @@ def send_msg(deviceid, devicepassed, msg):
 
 # 程序入口
 def main():
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(('0.0.0.0', 10024))
-        s.listen(5)
-        print(u'waiting for connection...')
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(('0.0.0.0', 10024))
+    s.listen(5)
+    print(u'waiting for connection...')
 
-        while True:
-            sock, addr = s.accept()  # 等待用户连接
-            user = mydevice.Device(sock)
-            devicelist.append(user)
-            t = threading.Thread(target=hand_user_con, args=(user,));
-            t.start()
-        s.close()
-    except OSError:
-        print('TCP创建异常')
-
-
-# # 因为main里为死循环，导致线程主线程卡主
+    while True:
+        sock, addr = s.accept()  # 等待用户连接
+        user = mydevice.Device(sock)
+        devicelist.append(user)
+        t = threading.Thread(target=hand_user_con, args=(user,));
+        t.start()
+    s.close()  # # 因为main里为死循环，导致线程主线程卡主
 def starTCP():
-    try:
-        print('TCP服务已启动')
-        thr = threading.Thread(target=main)
-        thr.start()
-    except ( KeyboardInterrupt ):
-        print('TCP服务启动失败')
-
+    print('TCP服务已启动')
+    thr = threading.Thread(target=main)
+    thr.start()
 
 # if (__name__ == "__main__"):
 #     starTCP()

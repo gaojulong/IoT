@@ -1,3 +1,4 @@
+# import mysql.connectSql as connsql
 import mysql.connectSql as connsql
 
 #获取数据库连接
@@ -23,7 +24,7 @@ def add(user_name,user_passwd):
 
 def matching(user_name,duser_passwd):
     # 返回受影响的行数
-    row=cur.execute("SELECT * FROM user WHERE user_name='%s'AND user_passwd='%s'" %(user_name,duser_passwd))
+    cur.execute("SELECT * FROM user WHERE user_name='%s'AND user_passwd='%s'" %(user_name,duser_passwd))
 
     results = cur.fetchall()  # 返回查询的数据二维数组
     if len(results) > 0:
