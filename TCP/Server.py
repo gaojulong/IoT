@@ -3,8 +3,7 @@ import socket
 import threading, time
 import TCP.Device as mydevice
 import Utils.myStringUtil as mystrUtil
-import mysql.deviceSql as mydevicesql
-import mysql.dataSql as mydatasql
+# import mysql.deviceSql as mydevicesql
 import mysql.mysql as mysql
 
 devicelist = []
@@ -34,7 +33,7 @@ def hand_user_con(device):
     except UnicodeDecodeError:
         print('字符转换错误：非法字符')
 
-    if mydevicesql.matching(device_id, device_passwd):
+    if mysql.MySQL().matching(device_id, device_passwd):
         print('验证成功')
 
         # 给设备绑定ID号

@@ -16,8 +16,20 @@
             <th>设备名称</th>
             <th>创建时间</th>
             <th>APIkey</th>
+            <th>
+            <td>
+                <form action="{{url_for('createdevice')}}"method="get">
+                <table><input type="submit" value="增加设备"></table>
+                </form>
+            </td>
+
+            </th>
 		</tr>
+
 	</thead>
+
+
+
 	<tbody>
 	{% for device in devices %}
 		<tr>
@@ -28,6 +40,17 @@
             <td>{{device[4] }}</td>
             <td>{{device[5]}}</td>
             <td>{{device[6]}}</td>
+            <td>
+                <form action="{{url_for('devices',device_id=device[0])}}"method="post">
+                <table><tr><td><input type="submit" value="删除"></td></tr></table>
+                </form>
+            </td>
+
+            <td>
+                <form action="{{url_for('getdata',device_id=device[0])}}"method="get">
+                <table><tr><td><input type="submit" value="查看数据"></td></tr></table>
+                </form>
+            </td>
 		</tr>
 	{% endfor %}
 	</tbody>
