@@ -48,6 +48,7 @@ def hand_user_con(device):
 
     # 循环接收数据并处理保存到数据库
     receiveMsg(device)
+    #跳出循环后，断开连接
 
 
     # -----------------验证设备成功后循环接收发送来的数据-----------------------#
@@ -77,17 +78,14 @@ def receiveMsg(device):
                 mysql.MySQL().insertData(device.deviceid,ret_str)
                 device.skt.send('OK'.encode())#接收数据后返回ok给客户端
 
-
-
-
-
     except:
+        print('上传异常，停止接收')
         isNormar = False
 
 
 # 发送消息给设备
 def send_msg(deviceid, devicepassed, msg):
-    if mydevicesql.matching(deviceid, devicepassed):
+    if mysql.MySQL().matching(deviceid, devicepassed):
 
         if (len(devicelist) >= 1):
             for device in devicelist:

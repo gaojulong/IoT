@@ -2,8 +2,6 @@ from flask import render_template, request, redirect, url_for
 from flask import Flask,session
 import os
 import datetime
-
-# import mysql.userSql as myusersql
 import TCP.Server as tcpservice
 import mysql.mysql as mysql
 import json
@@ -58,14 +56,10 @@ def devices(device_id):
         if row==0:
             return '删除失败'
         else:
-            # return redirect(url_for('getdevices'))
-            return '删除成功'
+            return redirect(url_for('get_all_devices'))
+            # return '删除成功'
     if request.method == 'GET':
         return '不支持GET请求'
-
-
-
-
 
 
 
@@ -89,26 +83,31 @@ def createdevice():
         else:
             return '设备可能已存在'
 
+#发送消息页面
+@app.route('/sendpage/<device_id>',methods=['GET'])
+def sendpage(device_id):
 
-# 给设备发送消息
-@app.route('/sendMsgDevice', methods=['GET', 'POST'])
-def sendMsgDevice():
-    if request.method == 'GET':
-        return render_template('sendMsgDevice.html')
-    else:
-        device_id = request.form.get('device_id')
+    #把设备id放到session中，在发送页面中从session获取到设备的id
+    session['device_id'] = device_id
+    return render_template('sendMsgDevice.html')
 
 
-        device_name = request.form.get('device_passwd')
-        sedMsg = request.form.get('msg')
 
-        str = tcpservice.send_msg(device_id, device_name, sedMsg)
+@app.route('/sendmsg', methods=['POST'])
+def sendmsg():
 
-        return ('返回结果:%s' % str)
+    device_id = session.get('device_id')
+    print(device_id)
+    device_passwd = request.form.get('device_passwd')
+    sedMsg = request.form.get('msg')
 
-        # 给设备发送消息
+    str = tcpservice.send_msg(device_id, device_passwd, sedMsg)
 
-#查询设备的数据
+    return ('返回结果:%s' % str)
+
+
+
+#查询设备最后一条的数据
 @app.route('/api/devices/<flag>', methods=['GET'])
 def selectData(flag):
     print(flag)
@@ -142,5 +141,5 @@ class DateEncoder(json.JSONEncoder):
 
 
 if __name__ == '__main__':
-    # tcpservice.starTCP()
-    app.run(host='0.0.0.0',debug=True)
+    tcpservice.starTCP()
+    app.run(host='0.0.0.0')
